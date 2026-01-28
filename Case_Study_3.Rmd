@@ -332,7 +332,7 @@ sum(duplicated(dataframe$ID))
 
 Tạo các biến tổng hợp (Các tính năng) để phục vụ cho Analyze:
 
-- Biến `Age` đã được tạo trước đó từ việc trích xuất từ dữ liệu năm sinh của khách hàng.
+- Biến `Age` được tạo từ việc trích xuất dữ liệu năm sinh (`Year_Birth`) của khách hàng.
 
 - `Marital_Status` mục đích khảo sát về tình trạng hôn nhân của khách hàng tại thời điểm thu thập, tuy nhiên khi thu thập dữ liệu, xuất hiện các quan sát có thể được xem là giá trị không xác định rõ ràng, dữ liệu nhiễu (noise) và cần cân nhắc việc gộp hoặc loại bỏ.
 
@@ -347,6 +347,7 @@ Tạo các biến tổng hợp (Các tính năng) để phục vụ cho Analyze:
 - Biến `Deal_Dependency` giúp ta phân biệt được (Value-driven customers, Deal-driven customers).
 
 ```{r}
+
 # Tuổi.
 dataframe_cleaning <- dataframe %>%
   mutate(Age = 2026 - Year_Birth)
@@ -386,13 +387,17 @@ dataframe_cleaning <- dataframe_cleaning %>%
                                   NumDealsPurchases / Total_Purchase,0)) 
 
 ```
+### Kiểm tra các biến 
+```{r}
+summary(dataframe_cleaning)
 
+```
 
 ## 3.3 Phân phối giá trị của các biến và xử lý các giá trị bất thường.
 
 **Vấn đề**:
 
-- `Year_Birth` (dữ liệu này được thu thập vào năm 2014-2015, tuy nhiên nếu xét về thời điểm 2014 - 2015 thì với giá trị 1893 thì tuổi sẽ là >100 tuổi thì điều này có thể xảy ra nhưng rất khó để phân khúc khách hàng nên vì vậy chúng ta sẽ loại bỏ các quan sát và ta xem đó là dữ liệu lỗi/outlier).
+- `Age` (dữ liệu này được thu thập vào năm 2014-2015, tuy nhiên nếu xét về thời điểm 2014 - 2015 thì với giá trị 1893 thì tuổi sẽ là >100 tuổi thì điều này có thể xảy ra nhưng rất khó để phân khúc khách hàng nên vì vậy chúng ta sẽ loại bỏ các quan sát và ta xem đó là dữ liệu lỗi/outlier).
 
 - `Income` (xuất hiện mức lương khá cao và khá tròn đó là 666666 nếu so với phân vị thứ 3 đến cuối, thì giá trị này có thể được xem là giá trị bất thường/outlier. Chúng ta sẽ tiến hành trực quan bằng cách vẽ biểu đồ ở bước EDA).
 
@@ -414,7 +419,7 @@ dataframe_cleaning <- dataframe_cleaning %>%
 
 Tiến hành Phân tích đơn biến (Tuổi, Mức thu nhập, Tổng chi tiêu của khách hàng, trung bình giá trị của đơn hàng, Học vị).
 
-### Biến `Year_Birth`
+### Biến `Age`
 
 - Loại bỏ các tuổi > 90. 
 
